@@ -1,6 +1,0 @@
-**/bin/*
-**/obj/*
-.vs/
-
-pandabank/.vs
-ConnectionString.config
