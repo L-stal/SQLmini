@@ -1,0 +1,15 @@
+<<<<<<< HEAD
+**/bin/*
+**/obj/*
+.vs/
+
+SqlMini/.vs
+App.config
+=======
+**/bin/*
+**/obj/*
+.vs/
+
+SqlMini/.vs
+App.config
+>>>>>>> 54c0133827f3ed18340608e450290f9bee0f0551
