@@ -1,0 +1,15 @@
+C:\Users\leost\source\repos\SqlMini\SqlMini\bin\Debug\net6.0\SqlMini.exe
+C:\Users\leost\source\repos\SqlMini\SqlMini\bin\Debug\net6.0\SqlMini.deps.json
+C:\Users\leost\source\repos\SqlMini\SqlMini\bin\Debug\net6.0\SqlMini.runtimeconfig.json
+C:\Users\leost\source\repos\SqlMini\SqlMini\bin\Debug\net6.0\SqlMini.dll
+C:\Users\leost\source\repos\SqlMini\SqlMini\bin\Debug\net6.0\SqlMini.pdb
+C:\Users\leost\source\repos\SqlMini\SqlMini\obj\Debug\net6.0\SqlMini.csproj.AssemblyReference.cache
+C:\Users\leost\source\repos\SqlMini\SqlMini\obj\Debug\net6.0\SqlMini.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\leost\source\repos\SqlMini\SqlMini\obj\Debug\net6.0\SqlMini.AssemblyInfoInputs.cache
+C:\Users\leost\source\repos\SqlMini\SqlMini\obj\Debug\net6.0\SqlMini.AssemblyInfo.cs
+C:\Users\leost\source\repos\SqlMini\SqlMini\obj\Debug\net6.0\SqlMini.csproj.CoreCompileInputs.cache
+C:\Users\leost\source\repos\SqlMini\SqlMini\obj\Debug\net6.0\SqlMini.dll
+C:\Users\leost\source\repos\SqlMini\SqlMini\obj\Debug\net6.0\refint\SqlMini.dll
+C:\Users\leost\source\repos\SqlMini\SqlMini\obj\Debug\net6.0\SqlMini.pdb
+C:\Users\leost\source\repos\SqlMini\SqlMini\obj\Debug\net6.0\SqlMini.genruntimeconfig.cache
+C:\Users\leost\source\repos\SqlMini\SqlMini\obj\Debug\net6.0\ref\SqlMini.dll
