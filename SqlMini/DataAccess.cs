@@ -1,5 +1,6 @@
 ﻿using Dapper;
 using Npgsql;
+using System;
 using System.Configuration;
 using System.Data;
 
@@ -15,7 +16,6 @@ namespace SqlMini
                 return output.ToList();
             }
         }
-
         internal static void CreatePerson(PersonModel person)
         {
             using (IDbConnection cnn = new NpgsqlConnection(LoadConnectionString()))
@@ -23,6 +23,13 @@ namespace SqlMini
                 cnn.Query($"INSERT INTO rls_person (person_name) VALUES (@person_name)", person);
             }
 
+        }
+        internal static void CreateProject(ProjectModel project)
+        {
+            using (IDbConnection cnn = new NpgsqlConnection(LoadConnectionString()))
+            {
+                cnn.Query($"INSERT INTO rls_project (project_name) VALUES (@project_name)", project);
+            }
         }
         private static string LoadConnectionString(string id = "Default")
         {

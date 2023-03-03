@@ -1,9 +1,10 @@
 ﻿using SqlMini;
-using System.Security.Cryptography.X509Certificates;
 using System.Text.RegularExpressions;
 
 internal class Program
 {
+
+    //Lägg in personer i projectet
     private static void Main(string[] args)
     {
         Console.WriteLine("SQL MINI");
@@ -13,7 +14,7 @@ internal class Program
             Console.WriteLine("Choose option");
             Console.WriteLine(" 1 Get person data");
             Console.WriteLine(" 2 Add new person");
-            Console.WriteLine(" 3 option 3");
+            Console.WriteLine(" 3 Create project");
             string command = Console.ReadLine();
             switch (command)
             {
@@ -24,7 +25,7 @@ internal class Program
                     CreatePerson();
                     break;
                 case "3":
-                    //VG uppgift?
+                    CreateProject();
                     break;
                 default:
                     Console.WriteLine("Choose option above");
@@ -34,7 +35,7 @@ internal class Program
             }
             Console.ReadKey();
         }
-       
+
     }
     internal static void GetPersonInfo()
     {
@@ -48,10 +49,10 @@ internal class Program
 
     internal static void CreatePerson()
     {
-        PersonModel newPerson =new PersonModel();
-        Console.WriteLine("Please enter the name of the person");
+        PersonModel newPerson = new PersonModel();
+        Console.Write("Please enter the name of the person: ");
         string personName = Helper.FormatString(Console.ReadLine());
-        if(!Regex.IsMatch(personName, @"^[a-öA-Ö]+$"))
+        if (!Regex.IsMatch(personName, @"^[a-öA-Ö]+$"))
         {
             Console.WriteLine("Please only use letters when adding a new person");
             Console.ReadKey();
@@ -67,7 +68,20 @@ internal class Program
     }
     internal static void CreateProject()
     {
-
-
+        ProjectModel newProject = new ProjectModel();
+        Console.Write("Enter the name of the project: ");
+        string projectName = Helper.FormatString(Console.ReadLine());
+        if (!Regex.IsMatch(projectName, @"^[a-öA-Ö]+$"))
+        {
+            Console.WriteLine("Something went wrong bakka uwu");
+            Console.ReadKey();
+        }
+        else
+        {
+            newProject.project_name = projectName;
+            DataAccess.CreateProject(newProject);
+            Console.WriteLine(newProject.project_name);
+            Console.ReadKey();
+        }
     }
 }
