@@ -2,8 +2,8 @@
 {
     internal class PersonModel
     {
-        public int Id { get; set; }
-        public string Name { get; set; }
+        public int id { get; set; }
+        public string person_name { get; set; }
 
     }
 }
