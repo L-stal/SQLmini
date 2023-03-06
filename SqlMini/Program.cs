@@ -12,14 +12,14 @@ internal class Program
         while (menu)
         {
             Console.WriteLine("Choose option");
-            Console.WriteLine(" 1 Get person data");
+            Console.WriteLine(" 1 Get person data/add hours");
             Console.WriteLine(" 2 Add new person");
             Console.WriteLine(" 3 Create project");
             string command = Console.ReadLine();
             switch (command)
             {
                 case "1":
-                    GetPersonInfo();
+                    AddHours();
                     break;
                 case "2":
                     CreatePerson();
@@ -82,6 +82,45 @@ internal class Program
             DataAccess.CreateProject(newProject);
             Console.WriteLine(newProject.project_name);
             Console.ReadKey();
+        }
+    }
+    // DU ÄR HÄR , FÖRSÖK SICKA IN PROEJECT NAME OCH HOURS!!!!!!!!!! 
+    internal static void AddHours()
+    {
+        ProjectPersonModel hours = new ProjectPersonModel();
+        Console.WriteLine("To what project to you want to add hours to ?");
+        Console.Write("Project: ");
+        string project = Console.ReadLine();
+        if (!DataAccess.LoadProjcetByName(project))
+        {
+            Console.WriteLine("Something went wrong");
+            return;
+        }
+        else
+        {
+            Console.Write("Enter your name: ");
+            string name = Console.ReadLine();
+            if (!DataAccess.CheckPerson(name))
+            {
+                Console.WriteLine("Something went wrong");
+                return;      
+            }
+            else
+            {
+                Console.WriteLine("Enter the amount of hours.");
+                Console.Write("Hours: ");
+                int addHours = int.Parse(Console.ReadLine());
+                if (addHours <= 0) 
+                {
+                    Console.WriteLine("Hours cant be 0.");
+                }
+                else
+                {
+                    hours.hours = addHours;
+                    DataAccess.AddHours(project,hours);
+                    Console.WriteLine(hours.hours);
+                }
+            }
         }
     }
 }
