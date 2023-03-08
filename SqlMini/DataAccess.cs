@@ -1,7 +1,9 @@
 ﻿using Dapper;
 using Npgsql;
+using System.Collections.Immutable;
 using System.Configuration;
 using System.Data;
+using System.Xml.Linq;
 
 namespace SqlMini
 {
@@ -32,16 +34,13 @@ namespace SqlMini
             }
         }
 
-        internal static bool LoadProjcetByName(string projectName)
+        internal static bool LoadProjectByName(string projectName)
         {
             using (IDbConnection cnn = new NpgsqlConnection(LoadConnectionString()))
             {
-                try {
-                    var output = cnn.Query($"SELECT * FROM rls_project_person WHERE project_name='{projectName}'", new DynamicParameters());
-                }
-                catch (Exception ex)
+                var output = cnn.Query($"SELECT * FROM rls_project WHERE project_name = '{projectName}'", new DynamicParameters());
+                if (output.Count() == 0)
                 {
-                    Console.WriteLine(ex.Message);
                     return false;
                 }
                 return true;
@@ -52,26 +51,59 @@ namespace SqlMini
         {
             using (IDbConnection cnn = new NpgsqlConnection(LoadConnectionString()))
             {
-                try
-                {
                     var output = cnn.Query($"SELECT * FROM rls_person WHERE person_name='{name}'", new DynamicParameters());
-                }
-                catch (Exception ex)
+                if (output.Count() == 0)
                 {
-                    Console.WriteLine(ex.Message);
                     return false;
                 }
                 return true;
             }
 
         }
+        internal static int GetProjectId(string projectName)
+        {
+            using (IDbConnection cnn = new NpgsqlConnection(LoadConnectionString()))
+          {
+                var output = cnn.Query<ProjectModel>($"SELECT id FROM rls_project WHERE project_name='{projectName}'", new DynamicParameters());
+                return output.First().id;
+           }
 
-        // HÄR ÄR DU 
-        internal static void AddHours(string projectName,int hours)
+        }
+        internal static int GetPersonId(string personName)
         {
             using (IDbConnection cnn = new NpgsqlConnection(LoadConnectionString()))
             {
-                cnn.Query($"INSERT INTO rls_project_person ('{hours}') WHERE '{projectName}'=project_id VALUES (@hours) ", new DynamicParameters());
+                var output = cnn.Query<ProjectModel>($"SELECT id FROM rls_person WHERE person_name='{personName}'", new DynamicParameters());
+                return output.First().id;
+            }
+
+        }
+        internal static List<ProjectPersonModel> ProjectSelection(int personID)
+        {
+            using (IDbConnection cnn = new NpgsqlConnection(LoadConnectionString()))
+            {
+               var output =  cnn.Query<ProjectPersonModel>($"SELECT project_name, rls_project_person.id FROM rls_project_person INNER JOIN rls_project ON rls_project_person.project_id=rls_project.id WHERE person_id='{personID}'");
+               return output.ToList();
+
+            }
+
+        }
+        internal static void AddHours(ProjectPersonModel project)
+        {
+            using (IDbConnection cnn = new NpgsqlConnection(LoadConnectionString()))
+            {
+                cnn.Query($"INSERT INTO rls_project_person (project_id,person_id,hours) VALUES (@project_id,@person_id,@hours)", project);
+
+            }
+
+        }
+
+        internal static void UpdateHours(ProjectPersonModel project)
+        {
+            using (IDbConnection cnn = new NpgsqlConnection(LoadConnectionString()))
+            {
+                cnn.Query($"UPDATE rls_project_person SET hours=@hours WHERE id=@id", project);
+
             }
 
         }

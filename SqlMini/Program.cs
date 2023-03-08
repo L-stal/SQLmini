@@ -12,20 +12,24 @@ internal class Program
         while (menu)
         {
             Console.WriteLine("Choose option");
-            Console.WriteLine(" 1 Get person data/add hours");
+            Console.WriteLine(" 1 edit hours");
             Console.WriteLine(" 2 Add new person");
             Console.WriteLine(" 3 Create project");
+            Console.WriteLine(" 4 add hours");
             string command = Console.ReadLine();
             switch (command)
             {
                 case "1":
-                    AddHours();
+                    EditHours();
                     break;
                 case "2":
                     CreatePerson();
                     break;
                 case "3":
                     CreateProject();
+                    break;
+                case "4":
+                    AddHours();
                     break;
                 default:
                     Console.WriteLine("Choose option above");
@@ -84,43 +88,104 @@ internal class Program
             Console.ReadKey();
         }
     }
-    // DU ÄR HÄR , FÖRSÖK SICKA IN PROEJECT NAME OCH HOURS!!!!!!!!!! 
     internal static void AddHours()
     {
-        ProjectPersonModel hours = new ProjectPersonModel();
+        ProjectPersonModel addedHours = new ProjectPersonModel();
         Console.WriteLine("To what project to you want to add hours to ?");
         Console.Write("Project: ");
-        string project = Console.ReadLine();
-        if (!DataAccess.LoadProjcetByName(project))
+        string project = Helper.FormatString(Console.ReadLine());
+        if (!DataAccess.LoadProjectByName(project))
         {
             Console.WriteLine("Something went wrong");
             return;
         }
         else
         {
+            Console.WriteLine(project);
+            int projectId = DataAccess.GetProjectId(project);
+            Console.WriteLine(projectId);
             Console.Write("Enter your name: ");
-            string name = Console.ReadLine();
+            string name = Helper.FormatString(Console.ReadLine());
             if (!DataAccess.CheckPerson(name))
             {
                 Console.WriteLine("Something went wrong");
-                return;      
+                return;
             }
             else
             {
+                int personId = DataAccess.GetPersonId(name);
+                Console.WriteLine(name);
                 Console.WriteLine("Enter the amount of hours.");
                 Console.Write("Hours: ");
-                int addHours = int.Parse(Console.ReadLine());
-                if (addHours <= 0) 
+                bool tryHours = int.TryParse(Console.ReadLine(), out int addHours);
+                if (!tryHours)
                 {
                     Console.WriteLine("Hours cant be 0.");
                 }
                 else
                 {
-                    hours.hours = addHours;
-                    DataAccess.AddHours(project,hours);
-                    Console.WriteLine(hours.hours);
+                    addedHours.hours = addHours;
+                    addedHours.project_id = projectId;
+                    addedHours.person_id = personId;
+                    DataAccess.AddHours(addedHours);
+                    Console.WriteLine(addedHours.hours);
                 }
             }
         }
+    }
+    internal static void EditHours()
+    {
+        int i = 1;
+        List<ProjectPersonModel> projectInfo = new List<ProjectPersonModel>();
+        Console.WriteLine("Enter your name");
+        Console.Write("Name: ");
+        string name = Helper.FormatString(Console.ReadLine());
+        if (!DataAccess.CheckPerson(name))
+        {
+            Console.WriteLine("Something went wrong");
+            return;
+        }
+        else
+        {
+            int personID = DataAccess.GetPersonId(name);
+            projectInfo = DataAccess.ProjectSelection(personID);
+            foreach (var item in projectInfo)
+            {
+                //Skriv även ut timmar !!!!!
+                Console.WriteLine(i++ + item.project_name + item.id);
+                Console.ReadKey();
+
+            }
+            Console.WriteLine("Choose a project you want to edit hours on");
+            string choice = Console.ReadLine();
+            bool choiceCheck = int.TryParse(choice, out int choiceInt);
+            if (!choiceCheck)
+            {
+                Console.WriteLine("plese selecet a project from aboive");
+                return;
+
+            }
+            else
+            {
+                Console.Write("Update hours: ");
+                string newHours = Console.ReadLine();
+                bool hoursChecked = int.TryParse(newHours, out int hoursInt);
+                if (!hoursChecked)
+                {
+                    Console.WriteLine("Error");
+                    return;
+                }
+                else
+                {
+                    projectInfo[choiceInt - 1].hours = hoursInt;
+                    DataAccess.UpdateHours(projectInfo[choiceInt - 1]);
+                    Console.WriteLine(hoursInt + projectInfo[choiceInt - 1].project_name);
+                    Console.ReadKey();
+                }
+
+            }
+
+        }
+
     }
 }
