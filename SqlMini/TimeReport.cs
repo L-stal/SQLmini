@@ -58,7 +58,6 @@ namespace SqlMini
                         GetPersonInfo();
                         break;
                     case "2":
-                        Console.Clear();
                         CreatePerson();
                         break;
                     case "3":
@@ -136,7 +135,8 @@ namespace SqlMini
         internal static void CreatePerson()
         {
             PersonModel newPerson = new PersonModel();
-            Console.Write(" Please enter the name of the person: ");
+            Console.WriteLine(" Please enter the name of the person. ");
+            Console.Write(" Name: ");
             //Help.FormatString formats inputs to uppcase first letter and everything after to lowercase
             string personName = Helper.FormatString(Console.ReadLine());
             //Regex checks if user only inputs letter and not anything else
@@ -149,7 +149,7 @@ namespace SqlMini
             {
                 newPerson.person_name = personName;
                 DataAccess.CreatePerson(newPerson);
-                Console.WriteLine(newPerson.person_name);
+                Console.WriteLine($" {newPerson.person_name} has been added.");
                 Console.ReadKey();
             }
 
@@ -250,6 +250,7 @@ namespace SqlMini
                     Console.WriteLine($" [{i++}] {item.project_name} Hours:{item.hours}");
                 }
                 Console.WriteLine(" Choose a project you want to edit hours on");
+                Console.Write(" Select: ");
                 string choice = Console.ReadLine();
                 bool choiceCheck = int.TryParse(choice, out int choiceInt);
                 if (!choiceCheck)
@@ -274,7 +275,7 @@ namespace SqlMini
                     {
                         projectInfo[choiceInt - 1].hours = hoursInt;
                         DataAccess.UpdateHours(projectInfo[choiceInt - 1]);
-                        Console.WriteLine(hoursInt + projectInfo[choiceInt - 1].project_name);
+                        Console.WriteLine($" Project [{projectInfo[choiceInt-1].project_name}] has been updated.");
                         Console.ReadKey();
                     }
 
