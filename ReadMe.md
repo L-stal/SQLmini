@@ -15,12 +15,14 @@ console application , also lets the user and new projects and persons in to the 
 ## The Code
 |**Class**|**Breakdown**|
 |-|-|
-|Program.cs|Initialize Program and Contains Methods|
+|Program.cs|Initialize Program|
 |Helper.cs|Contains method for repeated code use|
 |DataAccess|Contains Methods that talk to the db|
 |PersonModel.cs|Contains properties that store data for users|
 |ProjectModel.cs|Contains properties that store data for projects|
 |ProjectPersonModel.cs|Contains properties that store data for projects AND persons|
+|TimeReport.cs|Contains methods|
+
 <br>
 
 ## Authors
