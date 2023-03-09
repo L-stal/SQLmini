@@ -41,7 +41,7 @@ namespace SqlMini
                 cnn.Query($"INSERT INTO rls_project (project_name) VALUES (@project_name)", project);
             }
         }
-
+        //Made it a bool to return true or false to check if the project exist in database
         internal static bool LoadProjectByName(string projectName)
         {
             using (IDbConnection cnn = new NpgsqlConnection(LoadConnectionString()))
@@ -55,6 +55,7 @@ namespace SqlMini
             }
 
         }
+        //same as above
         internal static bool CheckPerson(string name)
         {
             using (IDbConnection cnn = new NpgsqlConnection(LoadConnectionString()))
@@ -105,7 +106,6 @@ namespace SqlMini
             }
 
         }
-
         internal static void UpdateHours(ProjectPersonModel project)
         {
             using (IDbConnection cnn = new NpgsqlConnection(LoadConnectionString()))
@@ -133,10 +133,6 @@ namespace SqlMini
             }
 
         }
-
-
-
-
         private static string LoadConnectionString(string id = "Default")
         {
             return ConfigurationManager.ConnectionStrings[id].ConnectionString;

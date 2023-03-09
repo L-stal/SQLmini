@@ -11,8 +11,9 @@ namespace SqlMini
     {
         private static void Main(string[] args)
         {
-            //runs the program
+            //runs the program :)
             TimeReport.Run();
+            //When run, program done :)
         }
     }
 }

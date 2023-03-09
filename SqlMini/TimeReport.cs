@@ -6,6 +6,7 @@ namespace SqlMini
     {
         public static void Run()
         {
+            //Creates a simple swithc/case menu for the user
             Console.Clear();
             bool menu = true;
             while (menu)
@@ -16,16 +17,19 @@ namespace SqlMini
                 Console.WriteLine(" [1] Person related options");
                 Console.WriteLine(" [2] Project related options");
                 Console.Write(" Select: ");
+                //checks user option
                 string command = Console.ReadLine();
                 switch (command)
                 {
                     case "1":
+                        //Calls personMenu method
                         PersonMenu();
                         break;
                     case "2":
                         ProjectMenu();
                         break;
                     default:
+                        //if user option does not exist run this code
                         Console.WriteLine(" Choose an option above");
                         Console.WriteLine(" Press [Any Key] to continue.");
                         Console.ReadKey();
@@ -35,6 +39,7 @@ namespace SqlMini
             }
 
         }
+        //PersonMenu and PrjoectMenu structure are tha same and the first menu, checks user input if exist ,runs method and prints out errors.
         internal static void PersonMenu()
         {
             Console.Clear();
@@ -114,8 +119,10 @@ namespace SqlMini
         }
         internal static void GetPersonInfo()
         {
+            //Gets data from gerperson data and adds to person list
             List<PersonModel> persons = DataAccess.GetPersonData();
             Console.WriteLine(" Persons in database.");
+            //foreach loop that prints out the name of each person in persons list
             foreach (PersonModel person in persons)
             {
                 Console.WriteLine(" " + person.person_name);
@@ -125,11 +132,14 @@ namespace SqlMini
 
         }
 
+        //Lets user creat person and send data to database
         internal static void CreatePerson()
         {
             PersonModel newPerson = new PersonModel();
             Console.Write(" Please enter the name of the person: ");
+            //Help.FormatString formats inputs to uppcase first letter and everything after to lowercase
             string personName = Helper.FormatString(Console.ReadLine());
+            //Regex checks if user only inputs letter and not anything else
             if (!Regex.IsMatch(personName, @"^[a-öA-Ö]+$"))
             {
                 Console.WriteLine(" Please only use letters when adding a new person");
@@ -144,6 +154,7 @@ namespace SqlMini
             }
 
         }
+        //Same as above
         internal static void CreateProject()
         {
             ProjectModel newProject = new ProjectModel();
@@ -169,29 +180,32 @@ namespace SqlMini
             Console.WriteLine(" To what project to you want to add hours to ?");
             Console.Write(" Project: ");
             string project = Helper.FormatString(Console.ReadLine());
+            //Checks if project exist in data base , if exist lets user continue
             if (!DataAccess.LoadProjectByName(project))
             {
                 Console.WriteLine(" No project with that name exist");
-                return;
+                Console.WriteLine(" Press [Any Key] to continue.");
+                Console.ReadKey();
             }
             else
             {
-                Console.WriteLine(project);
+                //Sends in user input to get project id
                 int projectId = DataAccess.GetProjectId(project);
-                Console.WriteLine(projectId);
                 Console.Write(" Enter your name: ");
+                //Checks if user exist in database
                 string name = Helper.FormatString(Console.ReadLine());
                 if (!DataAccess.CheckPerson(name))
                 {
                     Console.WriteLine(" Something went wrong");
-                    return;
+                    Console.WriteLine(" Press [Any Key] to continue.");
+                    Console.ReadKey();
                 }
                 else
                 {
                     int personId = DataAccess.GetPersonId(name);
-                    Console.WriteLine(name);
                     Console.WriteLine(" Enter the amount of hours.");
                     Console.Write(" Hours: ");
+                    //Wont let user register 0 hours
                     bool tryHours = int.TryParse(Console.ReadLine(), out int addHours);
                     if (!tryHours)
                     {
@@ -199,36 +213,41 @@ namespace SqlMini
                     }
                     else
                     {
+                        Console.WriteLine($" {addedHours} added to {project}");
                         addedHours.hours = addHours;
                         addedHours.project_id = projectId;
                         addedHours.person_id = personId;
                         DataAccess.AddHours(addedHours);
                         Console.WriteLine(addedHours.hours);
+                        Console.WriteLine(" Press [Any Key] to continue.");
+                        Console.ReadKey();
                     }
                 }
             }
         }
         internal static void EditHours()
         {
+            //int is used to create menu options
             int i = 1;
             List<ProjectPersonModel> projectInfo = new List<ProjectPersonModel>();
             Console.WriteLine(" Enter your name");
             Console.Write(" Name: ");
             string name = Helper.FormatString(Console.ReadLine());
+            //Checks if person exist in DB
             if (!DataAccess.CheckPerson(name))
             {
                 Console.WriteLine(" Something went wrong");
-                return;
+                Console.WriteLine(" Press [Any Key] to continue.");
+                Console.ReadKey();
             }
             else
             {
+                //sends in person name to get project person have been working on
                 int personID = DataAccess.GetPersonId(name);
                 projectInfo = DataAccess.ProjectSelection(personID);
                 foreach (var item in projectInfo)
                 {
-                    //Skriv även ut timmar !!!!!
                     Console.WriteLine($" [{i++}] {item.project_name} Hours:{item.hours}");
-
                 }
                 Console.WriteLine(" Choose a project you want to edit hours on");
                 string choice = Console.ReadLine();
@@ -236,7 +255,8 @@ namespace SqlMini
                 if (!choiceCheck)
                 {
                     Console.WriteLine(" Please select a project from above.");
-                    return;
+                    Console.WriteLine(" Press [Any Key] to continue.");
+                    Console.ReadKey();
 
                 }
                 else
@@ -247,7 +267,8 @@ namespace SqlMini
                     if (!hoursChecked)
                     {
                         Console.WriteLine(" Error");
-                        return;
+                        Console.WriteLine(" Press [Any Key] to continue.");
+                        Console.ReadKey();
                     }
                     else
                     {
@@ -262,6 +283,7 @@ namespace SqlMini
             }
 
         }
+        //same structure as edit hours
         internal static void UpdatePerson()
         {
             int i = 1;
@@ -283,6 +305,8 @@ namespace SqlMini
                     if (DataAccess.CheckPerson(newName))
                     {
                         Console.WriteLine(" Error ");
+                        Console.WriteLine(" Press [Any Key] to continue.");
+                        Console.ReadKey();
 
                     }
                     else
@@ -297,6 +321,7 @@ namespace SqlMini
                 else
                 {
                     Console.WriteLine(" Please only user letters.");
+                    Console.WriteLine(" Press [Any Key] to continue.");
                     Console.ReadKey();
 
                 }
@@ -304,6 +329,7 @@ namespace SqlMini
             else
             {
                 Console.WriteLine(" Invalid input.");
+                Console.WriteLine(" Press [Any Key] to continue.");
                 Console.ReadKey();
             }
         }
