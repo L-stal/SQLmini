@@ -36,6 +36,6 @@ C# is pretty cool!
 
 ## Takeaways
 I wish i was better at making menus using arrays thou the applications functions works as it should it could be alot better.
-I wrote everything from scratch to see where my knowlage in SQL and C# stands. During the project i leard where i need to get better.
+I wrote everything from scratch without using old projects a easy get-a-way to see where my knowlage in SQL and C# stands. During the project i leard where i need to get better.
 
 
