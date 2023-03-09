@@ -17,7 +17,15 @@ namespace SqlMini
                 return output.ToList();
             }
         }
+        internal static List<ProjectModel> GetProjectData()
+        {
+            using (IDbConnection cnn = new NpgsqlConnection(LoadConnectionString()))
+            {
+                var output = cnn.Query<ProjectModel>($"SELECT * FROM rls_project ", new DynamicParameters());
+                return output.ToList();
+            }
 
+        }
         internal static void CreatePerson(PersonModel person)
         {
             using (IDbConnection cnn = new NpgsqlConnection(LoadConnectionString()))
@@ -82,7 +90,7 @@ namespace SqlMini
         {
             using (IDbConnection cnn = new NpgsqlConnection(LoadConnectionString()))
             {
-               var output =  cnn.Query<ProjectPersonModel>($"SELECT project_name, rls_project_person.id FROM rls_project_person INNER JOIN rls_project ON rls_project_person.project_id=rls_project.id WHERE person_id='{personID}'");
+               var output =  cnn.Query<ProjectPersonModel>($"SELECT project_name, rls_project_person.id ,rls_project_person.hours FROM rls_project_person INNER JOIN rls_project ON rls_project_person.project_id=rls_project.id WHERE person_id='{personID}'");
                return output.ToList();
 
             }
@@ -107,6 +115,26 @@ namespace SqlMini
             }
 
         }
+        internal static void UpdatePerson(PersonModel project)
+        {
+            using (IDbConnection cnn = new NpgsqlConnection(LoadConnectionString()))
+            {
+                cnn.Query($"UPDATE rls_person SET person_name=@person_name WHERE id=@id", project);
+
+            }
+
+        }
+        internal static void UpdateProject(ProjectModel project)
+        {
+            using (IDbConnection cnn = new NpgsqlConnection(LoadConnectionString()))
+            {
+                cnn.Query($"UPDATE rls_project SET project_name=@project_name WHERE id=@id", project);
+
+            }
+
+        }
+
+
 
 
         private static string LoadConnectionString(string id = "Default")
