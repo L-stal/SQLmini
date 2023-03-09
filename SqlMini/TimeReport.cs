@@ -152,7 +152,7 @@ namespace SqlMini
             string projectName = Helper.FormatString(Console.ReadLine());
             if (!Regex.IsMatch(projectName, @"^[a-öA-Ö]+$"))
             {
-                Console.WriteLine(" Something went wrong bakka uwu");
+                Console.WriteLine(" Something went wrong");
                 Console.ReadKey();
             }
             else
@@ -195,7 +195,7 @@ namespace SqlMini
                     bool tryHours = int.TryParse(Console.ReadLine(), out int addHours);
                     if (!tryHours)
                     {
-                        Console.WriteLine("Hours cant be 0.");
+                        Console.WriteLine(" Hours cant be 0.");
                     }
                     else
                     {
@@ -227,7 +227,7 @@ namespace SqlMini
                 foreach (var item in projectInfo)
                 {
                     //Skriv även ut timmar !!!!!
-                    Console.WriteLine($"[{i++}] {item.project_name} Hours:{item.hours}");
+                    Console.WriteLine($" [{i++}] {item.project_name} Hours:{item.hours}");
 
                 }
                 Console.WriteLine(" Choose a project you want to edit hours on");
