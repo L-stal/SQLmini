@@ -26,8 +26,6 @@ console application , also lets the user add new projects and persons in to the 
 <br>
 
 ## Authors
-
-Contributors names and contact info
  Me!
  [@LinkedIn](https://www.linkedin.com/in/leo-st%C3%A5lenhag-a58a31253/)
 
