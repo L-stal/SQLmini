@@ -4,7 +4,7 @@ A simple consol app that lets user get data and insert data.
 
 ## Description
 A smal console app made in C# that uses Postgress as a database. Lets the user manipulate hours and projects using the 
-console application , also lets the user and new projects and persons in to the database.
+console application , also lets the user add new projects and persons in to the database.
 
 ### Key Features
 
